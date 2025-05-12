@@ -1,0 +1,19 @@
+{
+  "name": "ai-powered-recipe-recommendation-engine",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Eduardo-J-Morales/AI-Powered-Recipe-Recommendation-Engine.git"
+  },
+  "author": "Eduardo Morales",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Eduardo-J-Morales/AI-Powered-Recipe-Recommendation-Engine/issues"
+  },
+  "homepage": "https://github.com/Eduardo-J-Morales/AI-Powered-Recipe-Recommendation-Engine#readme"
+}
