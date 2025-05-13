@@ -29,7 +29,9 @@
 
       <div class="actions">
         <button @click="clearIngredients" class="clear-button">Clear All</button>
-        <button @click="findRecipes" class="find-button" :disabled></button>
+        <button @click="findRecipes" class="find-button" :disabled="store.ingredients.length === 0">
+          Find Recipes
+        </button>
       </div>
     </div>
 
