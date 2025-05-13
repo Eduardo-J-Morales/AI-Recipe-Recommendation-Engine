@@ -121,4 +121,42 @@ const findRecipes = async () => {
   margin-bottom: 28px;
   font-size: 16px;
 }
+
+.input-group {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.ingredient-input {
+  flex: 1;
+  padding: 12px 16px;
+  border: 2px solid #65a3ff;
+  border-radius: 8px 0 0 8px;
+  font-size: 16px;
+  transition:all 0.3s ease;
+}
+
+.ingredient-input:focus {
+  outline: none;
+  border-color: #3498db;
+}
+
+.add-button {
+  background-color: #3498db;
+  color: #fff;
+  border:none;
+  border-radius: 0 8px 8px 0;
+  padding: 0 20px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.add-button:hover {
+  background-color: #2980b9;
+}
 </style>
