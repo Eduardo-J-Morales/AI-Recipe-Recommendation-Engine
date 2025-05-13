@@ -14,6 +14,7 @@
 </template>
 
 <script setup>
+// Pinia setup
 import { createPinia } from 'pinia'
 import { createSSRApp, ref } from 'vue'
 
@@ -21,21 +22,33 @@ const pinia = createPinia()
 const app = createSSRApp()
 
 app.use(pinia)
-
+// Store setup
 import { useStore } from '../stores/store';
 
 const store = useStore()
 const ingredient = ref('')
-const ingredients = store.ingredients
+const isLoading = ref(false)
 
 const addIngredient = async () => {
-  if (ingredient.value) {
-    store.setIngredients([...store.ingredients, ingredient.value]);
-    ingredient.value = '';
-  }
-  const response = await store.fetchRecipes()
-  console.log(response)
-};
+  if (ingredient.value.trim()) {
+    const formattedIngredient = ingredient.value.trim().toLowerCase()
 
+    if (!store.ingredients.includes(formattedIngredient)) {
+      store.setIngredients([...store.ingredients, formattedIngredient])
+    }
+
+    ingredient.value = ''
+  }
+}
+
+const removeIngredient = (index) => {
+  const updatedIngredients = [...store.ingredients]
+  updatedIngredients.splice(index, 1)
+  store.setIngredients(updatedIngredients)
+}
+
+const clearIngredients = () => {
+  store.setIngredeints([])
+}
 
 </script>
