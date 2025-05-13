@@ -290,4 +290,30 @@ const findRecipes = async () => {
   0% { transform: rotate(0deg) }
   100% { transform: rotate(360deg) }
 }
+
+@media (max-width: 480px) {
+  .input-group {
+    flex-direction: column;
+  }
+  
+  .ingredient-input {
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+  
+  .add-button {
+    border-radius: 8px;
+    width: 100%;
+    padding: 12px;
+  }
+  
+  .actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .clear-button, .find-button {
+    width: 100%;
+  }
+}
 </style>
