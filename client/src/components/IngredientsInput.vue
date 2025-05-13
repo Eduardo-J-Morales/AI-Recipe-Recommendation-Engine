@@ -3,24 +3,36 @@
     <h2>Enter Ingredients</h2>
     
     <input
-      class="ingredeint-input"
+      class="ingredient-input"
       v-model="ingredient" 
       placeholder="Add an ingredient"
-      @keyup.enter="addIngredient" 
+      @keyup.enter="addIngredient()" 
       />
 
-    <button  class="add-button" @click="addIngredient">
+    <button  class="add-button" @click="addIngredient()">
       <span class="button-text">Add</span>
       <span class="button-icon">+</span>
     </button>
     
-    <div class="ingredients-list-container">
+    <div v-if="store.ingredients.length > 0" class="ingredients-list-container">
       <h3 class="ingredients-heading">Your Ingredients:</h3>
       <ul class="ingredients-list">
-        <li></li>
+        <li v-for="(item, index) in store.ingredients" :key="item" class="ingredient-item">
+          <span class="ingredient-name">{{ item }}</span>
+          <button class="remove-button" @click="removeIngredient(index)" aria-label="Remove ingredient">
+            &times;
+          </button>
+        </li>
       </ul>
+
+
+
+      <div class="actions">
+        <button @click="clearIngredients" class="clear-button">Clear All</button>
+        <button @click="findRecipes" class="find-button" :disabled></button>
+      </div>
     </div>
-  
+
   </div>
 </template>
 
@@ -41,7 +53,9 @@ const ingredient = ref('')
 const isLoading = ref(false)
 
 const addIngredient = async () => {
-  if (ingredient.value.trim()) {
+
+  console.log(ingredient.value.trim())
+  if (ingredient.value) {
     const formattedIngredient = ingredient.value.trim().toLowerCase()
 
     if (!store.ingredients.includes(formattedIngredient)) {
