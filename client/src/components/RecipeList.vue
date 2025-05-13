@@ -22,9 +22,7 @@
                         </div>
                     </div>
                     <div class="topics">
-                        <span>
-
-                        </span>
+                        <span></span>
                     </div>
                     <button @click="showRecipeDetails(recipe)">
                         View Details
@@ -34,7 +32,16 @@
         </div>
     </div>
 </template>
+
 <script setup>
+import { createPinia } from 'pinia'
+import { createSSRApp, ref } from 'vue'
+
+const pinia = createPinia()
+const app = createSSRApp()
+
+app.use(pinia)
+
 import { useStore } from '../stores/store';
 
 const store = useStore()
