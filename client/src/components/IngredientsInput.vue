@@ -159,4 +159,89 @@ const findRecipes = async () => {
 .add-button:hover {
   background-color: #2980b9;
 }
+
+.button-text {
+  display: inline-block;
+  margin-right: 8px;
+}
+
+.button-icon {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.ingredients-list-container {
+  background-color: white;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.ingredients-heading {
+  font-size: 18px;
+  color: #2c3e50;
+  margin-bottom: 12px;
+}
+
+.ingredients-list {
+  list-style-type: none;
+  padding: 0;
+  margin:0 0 20px 0;
+}
+
+.ingredient-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  background-color: #f1f8fe;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.ingredient-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.5);
+}
+
+.ingredient-name {
+  font-size: 16px;
+  color: #e4495e;
+  text-transform: capitalize;
+}
+
+.remove-button {
+  background: none;
+  border: none;
+  color: #e74c3c;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0 5px;
+  transition: color 0.2s;
+}
+
+.remove-button:hover {
+  color: #c0392b;
+}
+.actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+
+.clear-button {
+  background-color: #ecf0f1;
+  color: #7f8c8d;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 16px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.clear-button:hover {
+  background-color: #dfe6e9;
+}
 </style>
