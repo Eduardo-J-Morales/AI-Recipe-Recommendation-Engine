@@ -2,13 +2,24 @@
   <div>
     <h2>Enter Ingredients</h2>
     
-    <input v-model="ingredient" placeholder="Add an ingredient" />
+    <input
+      class="ingredeint-input"
+      v-model="ingredient" 
+      placeholder="Add an ingredient"
+      @keyup.enter="addIngredient" 
+      />
 
-    <button @click="addIngredient">Add</button>
+    <button  class="add-button" @click="addIngredient">
+      <span class="button-text">Add</span>
+      <span class="button-icon">+</span>
+    </button>
     
-    <ul>
-      <li v-for="item in store.ingredients" > {{ item }} </li>
-    </ul>
+    <div class="ingredients-list-container">
+      <h3 class="ingredients-heading">Your Ingredients:</h3>
+      <ul class="ingredients-list">
+        <li></li>
+      </ul>
+    </div>
   
   </div>
 </template>
@@ -48,7 +59,7 @@ const removeIngredient = (index) => {
 }
 
 const clearIngredients = () => {
-  store.setIngredeints([])
+  store.setIngredients([])
 }
 
 </script>
