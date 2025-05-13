@@ -1,7 +1,9 @@
 <template>
-  <div>
-    <h2>Enter Ingredients</h2>
-    
+  <div class="ingredients-container">
+    <h2 class="title">Enter Ingredients</h2>
+    <p class="subtitle">Enter ingredients you have on hand to find matching recipes</p>
+        <div class="input-group">
+
     <input
       class="ingredient-input"
       v-model="ingredient" 
@@ -13,7 +15,8 @@
       <span class="button-text">Add</span>
       <span class="button-icon">+</span>
     </button>
-    
+        </div>
+
     <div v-if="store.ingredients.length > 0" class="ingredients-list-container">
       <h3 class="ingredients-heading">Your Ingredients:</h3>
       <ul class="ingredients-list">
@@ -25,14 +28,19 @@
         </li>
       </ul>
 
-
-
+      
+      
       <div class="actions">
         <button @click="clearIngredients" class="clear-button">Clear All</button>
         <button @click="findRecipes" class="find-button" :disabled="store.ingredients.length === 0">
           Find Recipes
         </button>
       </div>
+    </div>
+
+    <div class="loading" v-if="isLoading">
+      <div class="spinner"></div>
+      <p>Finding recipes with you ingredients...</p>
     </div>
 
   </div>
@@ -78,4 +86,39 @@ const clearIngredients = () => {
   store.setIngredients([])
 }
 
+const findRecipes = async () => {
+  isLoading.value = true
+
+  try {
+    const response = await store.fetchRecipes()
+
+  } catch (error) {
+    console.error('Error fetching recipes:', error)
+  } finally {
+    isLoading.value = false
+  }
+}
+
 </script>
+
+<style scoped>
+.ingredients-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.title {
+  color: #2c3e50;
+  font-size: 28px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.subtitle {
+  color:  #7f8c8d;
+  text-align: center;
+  margin-bottom: 28px;
+  font-size: 16px;
+}
+</style>
