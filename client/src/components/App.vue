@@ -91,6 +91,7 @@ const findRecipes = async () => {
 
   try {
     const response = await store.fetchRecipes()
+    console.log(response)
 
   } catch (error) {
     console.error('Error fetching recipes:', error)

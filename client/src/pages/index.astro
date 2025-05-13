@@ -1,11 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import RecipeList from '../components/RecipeList.vue'
-import IngredientInput from '../components/IngredientsInput.vue'
+import App from '../components/App.vue'
 
 ---
 
 <Layout>
-    <IngredientInput client:only/>
-    <RecipeList client:only/>
+    <App client:only/>
 </Layout>
