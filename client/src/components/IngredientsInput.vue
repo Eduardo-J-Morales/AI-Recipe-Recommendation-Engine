@@ -32,7 +32,7 @@
       
       <div class="actions">
         <button @click="clearIngredients" class="clear-button">Clear All</button>
-        <button @click="findRecipes" class="find-button" :disabled="store.ingredients.length === 0">
+        <button @click="findRecipes" class="find-button">
           Find Recipes
         </button>
       </div>
@@ -60,7 +60,7 @@ import { useStore } from '../stores/store';
 
 const store = useStore()
 const ingredient = ref('')
-const isLoading = ref(false)
+const isLoading = ref(true)
 
 const addIngredient = async () => {
 
@@ -224,6 +224,7 @@ const findRecipes = async () => {
 .remove-button:hover {
   color: #c0392b;
 }
+
 .actions {
   display: flex;
   justify-content: space-between;
@@ -243,5 +244,50 @@ const findRecipes = async () => {
 
 .clear-button:hover {
   background-color: #dfe6e9;
+}
+
+.find-button {
+  background-color: #2ecc71;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: background-color 0.3s;
+}
+
+.find-button:hover {
+  background-color: #27ae60;
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  border-top: 4px solid #3498db;
+  width: 30px;
+  height: 30px;
+  animation: spinner 2s linear infinite;
+  margin-bottom: 10px;
+}
+
+@keyframes spinner {
+  0% { transform: rotate(0deg) }
+  100% { transform: rotate(360deg) }
 }
 </style>
