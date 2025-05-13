@@ -9,7 +9,7 @@ export const useStore = defineStore('main', {
       healthGoals: '' as string
     },
 
-    ingredients: [] as string[],
+    ingredients: ['tomatoes'] as string[],
     recipes: [] as any[],
   }),
 
