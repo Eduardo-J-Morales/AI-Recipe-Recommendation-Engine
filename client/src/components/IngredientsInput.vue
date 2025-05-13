@@ -60,7 +60,7 @@ import { useStore } from '../stores/store';
 
 const store = useStore()
 const ingredient = ref('')
-const isLoading = ref(true)
+const isLoading = ref(false)
 
 const addIngredient = async () => {
 
