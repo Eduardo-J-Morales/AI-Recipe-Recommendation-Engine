@@ -28,6 +28,22 @@
   padding: 15px;
 }
 
+.recipe-content h3 {
+  margin-top: 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.description {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 15px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
 </style>
 <template>
   
@@ -101,7 +117,7 @@
           </div>
           
           <div class="topics" v-if="recipe.topics && recipe.topics.length > 0 ">
-            <span v-for="topic in recipe.topics" :key="topic.slug" class="topic-tag">{{ topic.name }} </span>
+            <span v-for="topic in recipe.topics" :key="topic.slug" class="topic-tag">{{ topic.name + ' '}} </span>
         </div>
       </div>
     </div>
