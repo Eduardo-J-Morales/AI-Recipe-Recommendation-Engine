@@ -5,8 +5,32 @@
   gap: 20px;
   margin-top: 20px;
 }
+
+.recipe-card {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  background-color: #fff;
+  transition: transform 0.3s ease;
+}
+
+.recipe-card {
+  transform: translateY(-5px);
+}
+
+.recipe-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.recipe-content {
+  padding: 15px;
+}
+
 </style>
 <template>
+  
   <div class="ingredients-container">
     <h2 class="title">Enter Ingredients</h2>
     <p class="subtitle">Enter ingredients you have on hand to find matching recipes</p>
@@ -52,32 +76,35 @@
     </div>
 
   </div>
-  <div class="recipe-grid">
-    <div class="recipe-card" v-for="recipe in store.recipes">
-      <img :src="recipe.thumbnail_url" :alt="recipe.name"  class="recipe-image" />
-      <div class="recipe-content">
-        <h3>{{  recipe.name }}</h3>
-        <p class="description">{{ recipe.description }}</p>
-
-        <div class="recipe-details">
-          <div class="ditail">
-            <span class="label">Prep time:</span>
-            <span> {{  recipe.prep_time_minutes ?? 'N/A' }}</span>
+  <div v-if="store.recipes.length > 0" class="recipe-container">
+      <h2>Recipes</h2>
+    <div class="recipe-grid">
+      <div class="recipe-card" v-for="recipe in store.recipes">
+        <img :src="recipe.thumbnail_url" :alt="recipe.name"  class="recipe-image" />
+        <div class="recipe-content">
+          <h3>{{  recipe.name }}</h3>
+          <p class="description">{{ recipe.description }}</p>
+          
+          <div class="recipe-details">
+            <div class="ditail">
+              <span class="label">Prep time:</span>
+              <span> {{  recipe.prep_time_minutes ?? 'N/A' }}</span>
+            </div>
+            <div class="ditail">
+              <span class="label">Cook time</span>
+              <span>{{ recipe.cook_time_minutes ?? 'N/A' }}</span>
+            </div>
+            <div class="ditail">
+              <span class="label">Servings:</span>
+              <span>{{ recipe.num_servings ?? 'N/A' }}</span>
+            </div>
           </div>
-          <div class="ditail">
-            <span class="label">Cook time</span>
-            <span>{{ recipe.cook_time_minutes ?? 'N/A' }}</span>
-          </div>
-          <div class="ditail">
-            <span class="label">Servings:</span>
-            <span>{{ recipe.num_servings ?? 'N/A' }}</span>
-          </div>
-        </div>
-
-        <div class="topics" v-if="recipe.topics && recipe.topics.length > 0 ">
-            <span v-for="topic in recipe.topics" :key="topic.slug" class="topic-tag">{{ topic.name }}</span>
+          
+          <div class="topics" v-if="recipe.topics && recipe.topics.length > 0 ">
+            <span v-for="topic in recipe.topics" :key="topic.slug" class="topic-tag">{{ topic.name }} </span>
         </div>
       </div>
+    </div>
   </div>
 </div>
 </template>
