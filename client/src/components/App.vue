@@ -1,3 +1,11 @@
+<style scoped>
+.recipe-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+</style>
 <template>
   <div class="ingredients-container">
     <h2 class="title">Enter Ingredients</h2>
@@ -44,9 +52,37 @@
     </div>
 
   </div>
+  <div class="recipe-grid">
+    <div class="recipe-card" v-for="recipe in store.recipes">
+      <img :src="recipe.thumbnail_url" :alt="recipe.name"  class="recipe-image" />
+      <div class="recipe-content">
+        <h3>{{  recipe.name }}</h3>
+        <p class="description">{{ recipe.description }}</p>
+
+        <div class="recipe-details">
+          <div class="ditail">
+            <span class="label">Prep time:</span>
+            <span> {{  recipe.prep_time_minutes ?? 'N/A' }}</span>
+          </div>
+          <div class="ditail">
+            <span class="label">Cook time</span>
+            <span>{{ recipe.cook_time_minutes ?? 'N/A' }}</span>
+          </div>
+          <div class="ditail">
+            <span class="label">Servings:</span>
+            <span>{{ recipe.num_servings ?? 'N/A' }}</span>
+          </div>
+        </div>
+
+        <div class="topics" v-if="recipe.topics && recipe.topics.length > 0 ">
+            <span v-for="topic in recipe.topics" :key="topic.slug" class="topic-tag">{{ topic.name }}</span>
+        </div>
+      </div>
+  </div>
+</div>
 </template>
 
-<script setup>
+  <script setup>
 // Pinia setup
 import { createPinia } from 'pinia'
 import { createSSRApp, ref } from 'vue'
