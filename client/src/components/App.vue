@@ -43,27 +43,22 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-
 </style>
 <template>
-  
+
   <div class="ingredients-container">
     <h2 class="title">Enter Ingredients</h2>
     <p class="subtitle">Enter ingredients you have on hand to find matching recipes</p>
-        <div class="input-group">
+    <div class="input-group">
 
-    <input
-      class="ingredient-input"
-      v-model="ingredient" 
-      placeholder="Add an ingredient"
-      @keyup.enter="addIngredient()" 
-      />
+      <input class="ingredient-input" v-model="ingredient" placeholder="Add an ingredient"
+        @keyup.enter="addIngredient()" />
 
-    <button  class="add-button" @click="addIngredient()">
-      <span class="button-text">Add</span>
-      <span class="button-icon">+</span>
-    </button>
-        </div>
+      <button class="add-button" @click="addIngredient()">
+        <span class="button-text">Add</span>
+        <span class="button-icon">+</span>
+      </button>
+    </div>
 
     <div v-if="store.ingredients.length > 0" class="ingredients-list-container">
       <h3 class="ingredients-heading">Your Ingredients:</h3>
@@ -76,8 +71,8 @@
         </li>
       </ul>
 
-      
-      
+
+
       <div class="actions">
         <button @click="clearIngredients" class="clear-button">Clear All</button>
         <button @click="findRecipes" class="find-button">
@@ -93,18 +88,18 @@
 
   </div>
   <div v-if="store.recipes.length > 0" class="recipe-container">
-      <h2>Recipes</h2>
+    <h2>Recipes</h2>
     <div class="recipe-grid">
-      <div class="recipe-card" v-for="recipe in store.recipes">
-        <img :src="recipe.thumbnail_url" :alt="recipe.name"  class="recipe-image" />
+      <div class="recipe-card" v-for="(recipe, index) in store.recipes">
+        <img :src="recipe.thumbnail_url" :alt="recipe.name" class="recipe-image" />
         <div class="recipe-content">
-          <h3>{{  recipe.name }}</h3>
+          <h3>{{ recipe.name }}</h3>
           <p class="description">{{ recipe.description }}</p>
-          
+
           <div class="recipe-details">
             <div class="ditail">
               <span class="label">Prep time:</span>
-              <span> {{  recipe.prep_time_minutes ?? 'N/A' }}</span>
+              <span> {{ recipe.prep_time_minutes ?? 'N/A' }}</span>
             </div>
             <div class="ditail">
               <span class="label">Cook time</span>
@@ -115,17 +110,27 @@
               <span>{{ recipe.num_servings ?? 'N/A' }}</span>
             </div>
           </div>
-          
-          <div class="topics" v-if="recipe.topics && recipe.topics.length > 0 ">
-            <span v-for="topic in recipe.topics" :key="topic.slug" class="topic-tag">{{ topic.name + ' '}} </span>
+
+          <div class="topics" v-if="recipe.topics && recipe.topics.length > 0">
+            <span v-for="topic in recipe.topics" :key="topic.slug" class="topic-tag">{{ topic.name + ' ' }} </span>
+          </div>
+
+          <button @click="showRecipeDetails(index)" class="view-details-btn">
+            View Details
+          </button>
         </div>
       </div>
     </div>
+
+    <div class="recipe-modal" v-if="selectedRecipe">
+      <div class="modal-content">
+        <span class="close-btn"></span>
+      </div>
+    </div>
   </div>
-</div>
 </template>
 
-  <script setup>
+<script setup>
 // Pinia setup
 import { createPinia } from 'pinia'
 import { createSSRApp, ref } from 'vue'
@@ -140,7 +145,11 @@ import { useStore } from '../stores/store';
 const store = useStore()
 const ingredient = ref('')
 const isLoading = ref(false)
+const selectedRecipe = ref(null)
 
+const showRecipeDetails = (recipe) => {
+  selectedRecipe.value = recipe
+}
 const addIngredient = async () => {
 
   console.log(ingredient.value.trim())
@@ -196,7 +205,7 @@ const findRecipes = async () => {
 }
 
 .subtitle {
-  color:  #7f8c8d;
+  color: #7f8c8d;
   text-align: center;
   margin-bottom: 28px;
   font-size: 16px;
@@ -213,7 +222,7 @@ const findRecipes = async () => {
   border: 2px solid #65a3ff;
   border-radius: 8px 0 0 8px;
   font-size: 16px;
-  transition:all 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .ingredient-input:focus {
@@ -224,7 +233,7 @@ const findRecipes = async () => {
 .add-button {
   background-color: #3498db;
   color: #fff;
-  border:none;
+  border: none;
   border-radius: 0 8px 8px 0;
   padding: 0 20px;
   cursor: pointer;
@@ -266,7 +275,7 @@ const findRecipes = async () => {
 .ingredients-list {
   list-style-type: none;
   padding: 0;
-  margin:0 0 20px 0;
+  margin: 0 0 20px 0;
 }
 
 .ingredient-item {
@@ -367,32 +376,38 @@ const findRecipes = async () => {
 }
 
 @keyframes spinner {
-  0% { transform: rotate(0deg) }
-  100% { transform: rotate(360deg) }
+  0% {
+    transform: rotate(0deg)
+  }
+
+  100% {
+    transform: rotate(360deg)
+  }
 }
 
 @media (max-width: 480px) {
   .input-group {
     flex-direction: column;
   }
-  
+
   .ingredient-input {
     border-radius: 8px;
     margin-bottom: 10px;
   }
-  
+
   .add-button {
     border-radius: 8px;
     width: 100%;
     padding: 12px;
   }
-  
+
   .actions {
     flex-direction: column;
     gap: 10px;
   }
-  
-  .clear-button, .find-button {
+
+  .clear-button,
+  .find-button {
     width: 100%;
   }
 }
