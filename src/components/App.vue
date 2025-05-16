@@ -39,7 +39,7 @@
   color: #666;
   margin-bottom: 15px;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -130,8 +130,6 @@
           </button>
         </li>
       </ul>
-
-
 
       <div class="actions">
         <button @click="clearIngredients" class="clear-button">Clear All</button>
