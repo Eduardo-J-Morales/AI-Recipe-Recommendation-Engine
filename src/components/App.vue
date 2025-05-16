@@ -43,6 +43,66 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+.recipe-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 10px;
+  margin: 15px 0;
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+}
+
+.detail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.detail .label {
+  font-size: 0.8em;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.detail span:not(.label) {
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.view-details-btn {
+  width: 100%;
+  padding: 10px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s;
+  margin-top: 15px;
+}
+
+.view-details-btn:hover {
+  background-color: #2980b9;
+}
+
+.topics {
+  margin: 15px 0;
+}
+
+.topic-tag {
+  display: inline-block;
+  background-color: #e9ecef;
+  color: #495057;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8em;
+  margin-right: 6px;
+  margin-bottom: 6px;
+}
 </style>
 <template>
 
@@ -124,7 +184,68 @@
 
     <div class="recipe-modal" v-if="selectedRecipe">
       <div class="modal-content">
-        <span class="close-btn"></span>
+        <button class="close-btn" @click="closeRecipeModal">&times;</button>
+        <div class="modal-header">
+          <h2>{{ store.recipes[selectedRecipe].name }}</h2>
+          <div class="recipe-meta">
+            <span><strong>Prep Time:</strong> {{ store.recipes[selectedRecipe].prep_time_minutes }} mins</span>
+            <span><strong>Cook Time:</strong> {{ store.recipes[selectedRecipe].cook_time_minutes }} mins</span>
+            <span><strong>Total Time:</strong> {{ store.recipes[selectedRecipe].total_time_minutes }} mins</span>
+            <span><strong>Servings:</strong> {{ store.recipes[selectedRecipe].num_servings }}</span>
+          </div>
+        </div>
+        
+        <div class="modal-body">
+          <img :src="store.recipes[selectedRecipe].thumbnail_url" :alt="store.recipes[selectedRecipe].name" class="recipe-hero-image"/>
+          
+          <div class="recipe-description">
+            <p>{{ store.recipes[selectedRecipe].description }}</p>
+          </div>
+
+          <div class="recipe-instructions">
+            <h3>Instructions</h3>
+            <ol>
+              <li v-for="instruction in store.recipes[selectedRecipe].instructions" 
+                  :key="instruction.id" 
+                  class="instruction-step">
+                {{ instruction.display_text }}
+              </li>
+            </ol>
+          </div>
+
+          <div class="recipe-nutrition" v-if="store.recipes[selectedRecipe].nutrition">
+            <h3>Nutrition Information</h3>
+            <div class="nutrition-grid">
+              <div class="nutrition-item">
+                <span class="label">Calories:</span>
+                <span class="value">{{ store.recipes[selectedRecipe].nutrition.calories }}</span>
+              </div>
+              <div class="nutrition-item">
+                <span class="label">Carbohydrates:</span>
+                <span class="value">{{ store.recipes[selectedRecipe].nutrition.carbohydrates }}g</span>
+              </div>
+              <div class="nutrition-item">
+                <span class="label">Protein:</span>
+                <span class="value">{{ store.recipes[selectedRecipe].nutrition.protein }}g</span>
+              </div>
+              <div class="nutrition-item">
+                <span class="label">Fat:</span>
+                <span class="value">{{ store.recipes[selectedRecipe].nutrition.fat }}g</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="recipe-tags" v-if="store.recipes[selectedRecipe].tags">
+            <h3>Tags</h3>
+            <div class="tags-container">
+              <span v-for="tag in store.recipes[selectedRecipe].tags" 
+                    :key="tag.id" 
+                    class="tag">
+                {{ tag.display_name }}
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -186,6 +307,10 @@ const findRecipes = async () => {
   } finally {
     isLoading.value = false
   }
+}
+
+const closeRecipeModal = () => {
+  selectedRecipe.value = null
 }
 
 </script>
@@ -409,6 +534,137 @@ const findRecipes = async () => {
   .clear-button,
   .find-button {
     width: 100%;
+  }
+}
+
+.recipe-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: white;
+  width: 90%;
+  max-width: 900px;
+  max-height: 90vh;
+  border-radius: 12px;
+  overflow-y: auto;
+  position: relative;
+  padding: 20px;
+}
+
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #666;
+}
+
+.modal-header {
+  margin-bottom: 20px;
+}
+
+.modal-header h2 {
+  margin: 0 0 15px 0;
+  color: #2c3e50;
+}
+
+.recipe-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  color: #666;
+}
+
+.recipe-hero-image {
+  width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.recipe-description {
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+.recipe-instructions {
+  margin-bottom: 30px;
+}
+
+.recipe-instructions h3 {
+  color: #2c3e50;
+  margin-bottom: 15px;
+}
+
+.instruction-step {
+  margin-bottom: 15px;
+  line-height: 1.6;
+  color: #444;
+}
+
+.nutrition-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.nutrition-item {
+  background-color: #f8f9fa;
+  padding: 10px 15px;
+  border-radius: 6px;
+}
+
+.nutrition-item .label {
+  color: #666;
+  font-size: 0.9em;
+}
+
+.nutrition-item .value {
+  color: #2c3e50;
+  font-weight: 600;
+  margin-left: 5px;
+}
+
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.tag {
+  background-color: #e9ecef;
+  color: #495057;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+@media (max-width: 768px) {
+  .modal-content {
+    width: 95%;
+    padding: 15px;
+  }
+
+  .recipe-meta {
+    flex-direction: column;
+    gap: 10px;
   }
 }
 </style>
