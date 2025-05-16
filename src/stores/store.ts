@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import axios from 'axios';
 
 export const useStore = defineStore('main', {
   state: () => ({
@@ -29,10 +28,13 @@ export const useStore = defineStore('main', {
         url.searchParams.append('q', this.ingredients[i])
       }
 
+      const apiKey = import.meta.env.API_KEY;
+      console.log('API Key:', apiKey); // For debugging
+
       const options = {
         method: 'GET',
         headers: {
-          'x-rapidapi-key': '252b76aa7emsh604e939fdfcf615p104cb1jsn2592faebe5c9',
+          'x-rapidapi-key': apiKey as string,
           'x-rapidapi-host': 'tasty.p.rapidapi.com'
         }
       };
@@ -40,11 +42,11 @@ export const useStore = defineStore('main', {
       try {
         const response = await fetch(url.href, options);
         const data = await response.json()
-        
-        this.setRecipes(data.results)
+        console.log(response)
         return data.results
       } catch (error) {
-        console.error(error);
+        console.error('Error fetching recipes:', error);
+        throw error;
       }
     }
   }
