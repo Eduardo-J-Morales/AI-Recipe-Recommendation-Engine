@@ -1,48 +1,86 @@
-# Astro Starter Kit: Basics
+# AI-Powered Recipe Recommendation Engine
 
-```sh
-npm create astro@latest -- --template basics
-```
+An intelligent recipe recommendation system that helps users discover recipes based on available ingredients. The app leverages the Tasty API to provide personalized recipe suggestions, complete with detailed instructions, nutritional information, and cooking tips.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/basics)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/basics/devcontainer.json)
+> ⚡ **Note:** There is an explanation to install this Web App below for developers, however you don't need to install anything to try this Web App!  
+> An online demo is available here: [Live Web App Deployment](coming_soon)
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Features
 
-![just-the-basics](https://github.com/withastro/astro/assets/2244813/a0a5533c-a856-4198-8470-2d67b1d7c554)
+- **Smart Ingredient Input**: Easy-to-use interface for adding available ingredients
+- **Real-time Recipe Search**: Instant recipe suggestions from Tasty's extensive database
+- **Detailed Recipe Information**: 
+  - Step-by-step cooking instructions
+  - Nutritional facts
+  - Preparation and cooking times
+  - Serving sizes
+  - Recipe tags and categories
+- **Responsive Design**: Beautiful UI that works on all devices
+- **Modern Modal Interface**: Detailed recipe view with high-resolution images
 
-## 🚀 Project Structure
+## Technology Stack
 
-Inside of your Astro project, you'll see the following folders and files:
+- [![Vue.js](https://img.shields.io/badge/Vue.js-35495E?logo=vue.js&logoColor=4FC08D)](https://vuejs.org/)
+- [![Astro](https://img.shields.io/badge/Astro-BC52EE?logo=astro&logoColor=white)](https://astro.build/)
+- [![Pinia](https://img.shields.io/badge/Pinia-35495E?logo=vue.js&logoColor=4FC08D)](https://pinia.vuejs.org/)
+- [![RapidAPI](https://img.shields.io/badge/RapidAPI-1D4371?logo=rapidapi&logoColor=white)](https://rapidapi.com/)
+  
+## Installation
+
+1. ### Clone the repo:
+    ```bash
+    git clone https://github.com/yourusername/AI-Powered-Recipe-Recommendation-Engine.git
+    cd AI-Powered-Recipe-Recommendation-Engine
+    ```
+
+2. ### Install dependencies:
+    ```bash
+    npm install
+    ```
+
+3. ### Configure API Key:
+    - Sign up for a RapidAPI account
+    - Subscribe to the Tasty API
+    - Copy your API key
+    - Update the API key in `src/stores/store.ts`
+
+4. ### Run the app:
+    ```bash
+    npm run dev
+    ```
+    The app will be available at `http://localhost:4321`
+
+## Project Structure
 
 ```text
 /
+├── src/
+│   ├── components/
+│   │   └── App.vue         # Main application component
+│   ├── stores/
+│   │   └── store.ts        # Pinia store for state management
+│   ├── layouts/
+│   │   └── Layout.astro    # Main layout component
+│   └── pages/
+│       └── index.astro     # Entry point
 ├── public/
 │   └── favicon.svg
-├── src/
-│   ├── layouts/
-│   │   └── Layout.astro
-│   └── pages/
-│       └── index.astro
 └── package.json
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+## API Integration
 
-## 🧞 Commands
+The app integrates with the Tasty API through RapidAPI, providing access to:
+- Extensive recipe database
+- Detailed cooking instructions
+- Nutritional information
+- High-quality recipe images
+- Recipe categories and tags
 
-All commands are run from the root of the project, from a terminal:
+## Contributing
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-## 👀 Want to learn more?
+## License
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+This project is licensed under the MIT License - see the LICENSE file for details.
