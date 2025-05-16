@@ -1,6 +1,6 @@
-# AI-Powered Recipe Recommendation Engine
+# Ingredient-Based Recipe Finder
 
-An intelligent recipe recommendation system that helps users discover recipes based on available ingredients. The app leverages the Tasty API to provide personalized recipe suggestions, complete with detailed instructions, nutritional information, and cooking tips.
+A smart recipe recommendation system that helps users discover recipes based on the ingredients they have on hand. The app leverages the Tasty API to provide personalized recipe suggestions, complete with detailed instructions, nutritional information, and cooking tips.
 
 > ⚡ **Note:** There is an explanation to install this Web App below for developers, however you don't need to install anything to try this Web App!  
 > An online demo is available here: [Live Web App Deployment](coming_soon)
@@ -29,8 +29,8 @@ An intelligent recipe recommendation system that helps users discover recipes ba
 
 1. ### Clone the repo:
     ```bash
-    git clone https://github.com/yourusername/AI-Powered-Recipe-Recommendation-Engine.git
-    cd AI-Powered-Recipe-Recommendation-Engine
+    git clone https://github.com/yourusername/PantryGenius.git
+    cd PantryGenius
     ```
 
 2. ### Install dependencies:
@@ -42,7 +42,7 @@ An intelligent recipe recommendation system that helps users discover recipes ba
     - Sign up for a RapidAPI account
     - Subscribe to the Tasty API
     - Copy your API key
-    - Update the API key in `src/stores/store.ts`
+    - Update the API key in your `.env` file as `PUBLIC_TASTY_API_KEY`
 
 4. ### Run the app:
     ```bash
