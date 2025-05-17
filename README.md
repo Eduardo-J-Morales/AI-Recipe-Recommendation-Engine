@@ -3,7 +3,7 @@
 A smart recipe recommendation system that helps users discover recipes based on the ingredients they have on hand. The app leverages the Tasty API to provide personalized recipe suggestions, complete with detailed instructions, nutritional information, and cooking tips.
 
 > ⚡ **Note:** There is an explanation to install this Web App below for developers, however you don't need to install anything to try this Web App!  
-> An online demo is available here: [Live Web App Deployment](coming_soon)
+> An online demo is available here: [Live Web App Deployment](https://ingredient-based-recipes-finder-production.up.railway.app/)
 
 ## Features
 
