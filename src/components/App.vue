@@ -271,7 +271,6 @@ const showRecipeDetails = (recipe) => {
 }
 const addIngredient = async () => {
 
-  console.log(ingredient.value.trim())
   if (ingredient.value) {
     const formattedIngredient = ingredient.value.trim().toLowerCase()
 
@@ -299,6 +298,7 @@ const findRecipes = async () => {
   try {
     const response = await store.fetchRecipes()
     console.log(response)
+    store.setRecipes(response)
 
   } catch (error) {
     console.error('Error fetching recipes:', error)
