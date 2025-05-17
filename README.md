@@ -1,4 +1,4 @@
-# Ingredient-Based Recipe Finder
+# Ingredient-Based Recipes Finder
 
 A smart recipe recommendation system that helps users discover recipes based on the ingredients they have on hand. The app leverages the Tasty API to provide personalized recipe suggestions, complete with detailed instructions, nutritional information, and cooking tips.
 
