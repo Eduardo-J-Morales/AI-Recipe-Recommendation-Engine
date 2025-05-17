@@ -103,217 +103,7 @@
   margin-right: 6px;
   margin-bottom: 6px;
 }
-</style>
-<template>
 
-  <div class="ingredients-container">
-    <h2 class="title">Enter Ingredients</h2>
-    <p class="subtitle">Enter ingredients you have on hand to find matching recipes</p>
-    <div class="input-group">
-
-      <input class="ingredient-input" v-model="ingredient" placeholder="Add an ingredient"
-        @keyup.enter="addIngredient()" />
-
-      <button class="add-button" @click="addIngredient()">
-        <span class="button-text">Add</span>
-        <span class="button-icon">+</span>
-      </button>
-    </div>
-
-    <div v-if="store.ingredients.length > 0" class="ingredients-list-container">
-      <h3 class="ingredients-heading">Your Ingredients:</h3>
-      <ul class="ingredients-list">
-        <li v-for="(item, index) in store.ingredients" :key="item" class="ingredient-item">
-          <span class="ingredient-name">{{ item }}</span>
-          <button class="remove-button" @click="removeIngredient(index)" aria-label="Remove ingredient">
-            &times;
-          </button>
-        </li>
-      </ul>
-
-      <div class="actions">
-        <button @click="clearIngredients" class="clear-button">Clear All</button>
-        <button @click="findRecipes" class="find-button">
-          Find Recipes
-        </button>
-      </div>
-    </div>
-
-    <div class="loading" v-if="isLoading">
-      <div class="spinner"></div>
-      <p>Finding recipes with you ingredients...</p>
-    </div>
-
-  </div>
-  <div v-if="store.recipes.length > 0" class="recipe-container">
-    <h2>Recipes</h2>
-    <div class="recipe-grid">
-      <div class="recipe-card" v-for="(recipe, index) in store.recipes">
-        <img :src="recipe.thumbnail_url" :alt="recipe.name" class="recipe-image" />
-        <div class="recipe-content">
-          <h3>{{ recipe.name }}</h3>
-          <p class="description">{{ recipe.description }}</p>
-
-          <div class="recipe-details">
-            <div class="ditail">
-              <span class="label">Prep time:</span>
-              <span> {{ recipe.prep_time_minutes ?? 'N/A' }}</span>
-            </div>
-            <div class="ditail">
-              <span class="label">Cook time</span>
-              <span>{{ recipe.cook_time_minutes ?? 'N/A' }}</span>
-            </div>
-            <div class="ditail">
-              <span class="label">Servings:</span>
-              <span>{{ recipe.num_servings ?? 'N/A' }}</span>
-            </div>
-          </div>
-
-          <div class="topics" v-if="recipe.topics && recipe.topics.length > 0">
-            <span v-for="topic in recipe.topics" :key="topic.slug" class="topic-tag">{{ topic.name + ' ' }} </span>
-          </div>
-
-          <button @click="showRecipeDetails(index)" class="view-details-btn">
-            View Details
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <div class="recipe-modal" v-if="selectedRecipe">
-      <div class="modal-content">
-        <button class="close-btn" @click="closeRecipeModal">&times;</button>
-        <div class="modal-header">
-          <h2>{{ store.recipes[selectedRecipe].name }}</h2>
-          <div class="recipe-meta">
-            <span><strong>Prep Time:</strong> {{ store.recipes[selectedRecipe].prep_time_minutes }} mins</span>
-            <span><strong>Cook Time:</strong> {{ store.recipes[selectedRecipe].cook_time_minutes }} mins</span>
-            <span><strong>Total Time:</strong> {{ store.recipes[selectedRecipe].total_time_minutes }} mins</span>
-            <span><strong>Servings:</strong> {{ store.recipes[selectedRecipe].num_servings }}</span>
-          </div>
-        </div>
-        
-        <div class="modal-body">
-          <img :src="store.recipes[selectedRecipe].thumbnail_url" :alt="store.recipes[selectedRecipe].name" class="recipe-hero-image"/>
-          
-          <div class="recipe-description">
-            <p>{{ store.recipes[selectedRecipe].description }}</p>
-          </div>
-
-          <div class="recipe-instructions">
-            <h3>Instructions</h3>
-            <ol>
-              <li v-for="instruction in store.recipes[selectedRecipe].instructions" 
-                  :key="instruction.id" 
-                  class="instruction-step">
-                {{ instruction.display_text }}
-              </li>
-            </ol>
-          </div>
-
-          <div class="recipe-nutrition" v-if="store.recipes[selectedRecipe].nutrition">
-            <h3>Nutrition Information</h3>
-            <div class="nutrition-grid">
-              <div class="nutrition-item">
-                <span class="label">Calories:</span>
-                <span class="value">{{ store.recipes[selectedRecipe].nutrition.calories }}</span>
-              </div>
-              <div class="nutrition-item">
-                <span class="label">Carbohydrates:</span>
-                <span class="value">{{ store.recipes[selectedRecipe].nutrition.carbohydrates }}g</span>
-              </div>
-              <div class="nutrition-item">
-                <span class="label">Protein:</span>
-                <span class="value">{{ store.recipes[selectedRecipe].nutrition.protein }}g</span>
-              </div>
-              <div class="nutrition-item">
-                <span class="label">Fat:</span>
-                <span class="value">{{ store.recipes[selectedRecipe].nutrition.fat }}g</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="recipe-tags" v-if="store.recipes[selectedRecipe].tags">
-            <h3>Tags</h3>
-            <div class="tags-container">
-              <span v-for="tag in store.recipes[selectedRecipe].tags" 
-                    :key="tag.id" 
-                    class="tag">
-                {{ tag.display_name }}
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
-
-<script setup>
-// Pinia setup
-import { createPinia } from 'pinia'
-import { createSSRApp, ref } from 'vue'
-
-const pinia = createPinia()
-const app = createSSRApp()
-
-app.use(pinia)
-// Store setup
-import { useStore } from '../stores/store';
-
-const store = useStore()
-const ingredient = ref('')
-const isLoading = ref(false)
-const selectedRecipe = ref(null)
-
-const showRecipeDetails = (recipe) => {
-  selectedRecipe.value = recipe
-}
-const addIngredient = async () => {
-
-  if (ingredient.value) {
-    const formattedIngredient = ingredient.value.trim().toLowerCase()
-
-    if (!store.ingredients.includes(formattedIngredient)) {
-      store.setIngredients([...store.ingredients, formattedIngredient])
-    }
-
-    ingredient.value = ''
-  }
-}
-
-const removeIngredient = (index) => {
-  const updatedIngredients = [...store.ingredients]
-  updatedIngredients.splice(index, 1)
-  store.setIngredients(updatedIngredients)
-}
-
-const clearIngredients = () => {
-  store.setIngredients([])
-}
-
-const findRecipes = async () => {
-  isLoading.value = true
-
-  try {
-    const response = await store.fetchRecipes()
-    console.log(response)
-    store.setRecipes(response)
-
-  } catch (error) {
-    console.error('Error fetching recipes:', error)
-  } finally {
-    isLoading.value = false
-  }
-}
-
-const closeRecipeModal = () => {
-  selectedRecipe.value = null
-}
-
-</script>
-
-<style scoped>
 .ingredients-container {
   max-width: 600px;
   margin: 0 auto;
@@ -665,4 +455,233 @@ const closeRecipeModal = () => {
     gap: 10px;
   }
 }
+
+.size-input {
+  border-radius: 8px 8px 8px 8px;
+  margin: 8px auto;
+}
 </style>
+<template>
+
+  <div class="ingredients-container">
+    <h2 class="title">Enter Ingredients</h2>
+    <p class="subtitle">Enter ingredients you have on hand to find matching recipes</p>
+    <div class="input-group">
+
+      <input class="ingredient-input" v-model="ingredient" placeholder="Add an ingredient"
+        @keyup.enter="addIngredient()" />
+
+      <button class="add-button" @click="addIngredient()">
+        <span class="button-text">Add</span>
+        <span class="button-icon">+</span>
+      </button>
+    </div>
+    
+    <!-- New: Number of recipes input -->
+    <p style="font-size: 0.95em; color: #666; margin-bottom: 16px; text-align: center;">
+      Choose how many recipes you want to see in the results.
+    </p>
+    <div class="input-group">
+      <input
+        type="number"
+        min="1"
+        v-model.number="numRecipes"
+        class="ingredient-input size-input"
+        style="max-width: 200px;"
+        placeholder="Number of recipes"
+      />
+    </div>
+
+
+    <div v-if="store.ingredients.length > 0" class="ingredients-list-container">
+      <h3 class="ingredients-heading">Your Ingredients:</h3>
+      <ul class="ingredients-list">
+        <li v-for="(item, index) in store.ingredients" :key="item" class="ingredient-item">
+          <span class="ingredient-name">{{ item }}</span>
+          <button class="remove-button" @click="removeIngredient(index)" aria-label="Remove ingredient">
+            &times;
+          </button>
+        </li>
+      </ul>
+
+      <div class="actions">
+        <button @click="clearIngredients" class="clear-button">Clear All</button>
+        <button @click="findRecipes" class="find-button">
+          Find Recipes
+        </button>
+      </div>
+    </div>
+
+    <div class="loading" v-if="isLoading">
+      <div class="spinner"></div>
+      <p>Finding recipes with you ingredients...</p>
+    </div>
+
+  </div>
+  <div v-if="store.recipes.length > 0" class="recipe-container">
+    <h2>Recipes</h2>
+    <div class="recipe-grid">
+      <div class="recipe-card" v-for="(recipe, index) in store.recipes">
+        <img :src="recipe.thumbnail_url" :alt="recipe.name" class="recipe-image" />
+        <div class="recipe-content">
+          <h3>{{ recipe.name }}</h3>
+          <p class="description">{{ recipe.description }}</p>
+
+          <div class="recipe-details">
+            <div class="ditail">
+              <span class="label">Prep time:</span>
+              <span> {{ recipe.prep_time_minutes ?? 'N/A' }}</span>
+            </div>
+            <div class="ditail">
+              <span class="label">Cook time</span>
+              <span>{{ recipe.cook_time_minutes ?? 'N/A' }}</span>
+            </div>
+            <div class="ditail">
+              <span class="label">Servings:</span>
+              <span>{{ recipe.num_servings ?? 'N/A' }}</span>
+            </div>
+          </div>
+
+          <div class="topics" v-if="recipe.topics && recipe.topics.length > 0">
+            <span v-for="topic in recipe.topics" :key="topic.slug" class="topic-tag">{{ topic.name + ' ' }} </span>
+          </div>
+
+          <button @click="showRecipeDetails(index)" class="view-details-btn">
+            View Details
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="recipe-modal" v-if="selectedRecipe">
+      <div class="modal-content">
+        <button class="close-btn" @click="closeRecipeModal">&times;</button>
+        <div class="modal-header">
+          <h2>{{ store.recipes[selectedRecipe].name }}</h2>
+          <div class="recipe-meta">
+            <span><strong>Prep Time:</strong> {{ store.recipes[selectedRecipe].prep_time_minutes }} mins</span>
+            <span><strong>Cook Time:</strong> {{ store.recipes[selectedRecipe].cook_time_minutes }} mins</span>
+            <span><strong>Total Time:</strong> {{ store.recipes[selectedRecipe].total_time_minutes }} mins</span>
+            <span><strong>Servings:</strong> {{ store.recipes[selectedRecipe].num_servings }}</span>
+          </div>
+        </div>
+        
+        <div class="modal-body">
+          <img :src="store.recipes[selectedRecipe].thumbnail_url" :alt="store.recipes[selectedRecipe].name" class="recipe-hero-image"/>
+          
+          <div class="recipe-description">
+            <p>{{ store.recipes[selectedRecipe].description }}</p>
+          </div>
+
+          <div class="recipe-instructions">
+            <h3>Instructions</h3>
+            <ol>
+              <li v-for="instruction in store.recipes[selectedRecipe].instructions" 
+                  :key="instruction.id" 
+                  class="instruction-step">
+                {{ instruction.display_text }}
+              </li>
+            </ol>
+          </div>
+
+          <div class="recipe-nutrition" v-if="store.recipes[selectedRecipe].nutrition">
+            <h3>Nutrition Information</h3>
+            <div class="nutrition-grid">
+              <div class="nutrition-item">
+                <span class="label">Calories:</span>
+                <span class="value">{{ store.recipes[selectedRecipe].nutrition.calories }}</span>
+              </div>
+              <div class="nutrition-item">
+                <span class="label">Carbohydrates:</span>
+                <span class="value">{{ store.recipes[selectedRecipe].nutrition.carbohydrates }}g</span>
+              </div>
+              <div class="nutrition-item">
+                <span class="label">Protein:</span>
+                <span class="value">{{ store.recipes[selectedRecipe].nutrition.protein }}g</span>
+              </div>
+              <div class="nutrition-item">
+                <span class="label">Fat:</span>
+                <span class="value">{{ store.recipes[selectedRecipe].nutrition.fat }}g</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="recipe-tags" v-if="store.recipes[selectedRecipe].tags">
+            <h3>Tags</h3>
+            <div class="tags-container">
+              <span v-for="tag in store.recipes[selectedRecipe].tags" 
+                    :key="tag.id" 
+                    class="tag">
+                {{ tag.display_name }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+// Pinia setup
+import { createPinia } from 'pinia'
+import { createSSRApp, ref } from 'vue'
+
+const pinia = createPinia()
+const app = createSSRApp()
+
+app.use(pinia)
+// Store setup
+import { useStore } from '../stores/store';
+
+const store = useStore()
+const ingredient = ref('')
+const isLoading = ref(false)
+const selectedRecipe = ref(null)
+const numRecipes = ref(5) 
+
+const showRecipeDetails = (recipe) => {
+  selectedRecipe.value = recipe
+}
+const addIngredient = async () => {
+
+  if (ingredient.value) {
+    const formattedIngredient = ingredient.value.trim().toLowerCase()
+
+    if (!store.ingredients.includes(formattedIngredient)) {
+      store.setIngredients([...store.ingredients, formattedIngredient])
+    }
+
+    ingredient.value = ''
+  }
+}
+
+const removeIngredient = (index) => {
+  const updatedIngredients = [...store.ingredients]
+  updatedIngredients.splice(index, 1)
+  store.setIngredients(updatedIngredients)
+}
+
+const clearIngredients = () => {
+  store.setIngredients([])
+}
+
+const findRecipes = async () => {
+  isLoading.value = true
+
+  try {
+    const response = await store.fetchRecipes(numRecipes.value)
+    store.setRecipes(response)
+
+  } catch (error) {
+    console.error('Error fetching recipes:', error)
+  } finally {
+    isLoading.value = false
+  }
+}
+
+const closeRecipeModal = () => {
+  selectedRecipe.value = null
+}
+
+</script>
