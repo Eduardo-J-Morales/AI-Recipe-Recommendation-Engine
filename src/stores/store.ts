@@ -32,7 +32,7 @@ export const useStore = defineStore('main', {
       const options = {
         method: 'GET',
         headers: {
-          'x-rapidapi-key': process.env.API_KEY,
+          'x-rapidapi-key': import.meta.env.PUBLIC_API_KEY,
           'x-rapidapi-host': 'tasty.p.rapidapi.com'
         }
       };
@@ -40,7 +40,6 @@ export const useStore = defineStore('main', {
       try {
         const response = await fetch(url.href, options);
         const data = await response.json()
-        console.log(response)
         return data.results
       } catch (error) {
         console.error('Error fetching recipes:', error);
