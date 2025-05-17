@@ -1,4 +1,6 @@
-FROM node:18-alpine AS build 
+FROM caddy:alpine
+
+RUN apk update && apk add --no-cach nodejs npm 
 
 WORKDIR /app
 
@@ -6,10 +8,8 @@ COPY package*.json ./
 
 RUN npm install
 
-COPY . .
+COPY ./ ./
 
-RUN npm run build 
+RUN cp -r dist/* /srv/
 
-EXPOSE 4321
-
-CMD ["npm", "run", "preview", "--", "--host"]
+COPY ./Caddyfile /etc
