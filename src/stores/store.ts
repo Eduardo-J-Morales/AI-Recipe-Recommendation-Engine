@@ -22,11 +22,10 @@ export const useStore = defineStore('main', {
     setRecipes(recipes: any[]) {
       this.recipes = recipes;
     },
-    async fetchRecipes() {
-      const url = new URL('https://tasty.p.rapidapi.com/recipes/list?from=0&size=20');
-      for (let i = 0; i < this.ingredients.length; i++) {
-        url.searchParams.append('q', this.ingredients[i])
-      }
+    async fetchRecipes(numberOfRecipes) {
+      const url = new URL(`https://tasty.p.rapidapi.com/recipes/list?from=0&size=${numberOfRecipes}`);
+        url.searchParams.append('q', this.ingredients.join(','))
+      
 
 
       const options = {
