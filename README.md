@@ -50,9 +50,6 @@ A smart recipe recommendation system that helps users discover recipes based on 
     ```
     The app will be available at `http://localhost:4321`
 
-## Project Structure
-
-
 ## API Integration
 
 The app integrates with the Tasty API through RapidAPI, providing access to:
