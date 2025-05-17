@@ -29,8 +29,8 @@ A smart recipe recommendation system that helps users discover recipes based on 
 
 1. ### Clone the repo:
     ```bash
-    git clone https://github.com/yourusername/PantryGenius.git
-    cd PantryGenius
+    git clone https://github.com/Eduardo-J-Morales/Ingredient-Based-Recipes-Finder.git
+    cd Ingredient-Based-Recipes-Finder
     ```
 
 2. ### Install dependencies:
@@ -52,21 +52,6 @@ A smart recipe recommendation system that helps users discover recipes based on 
 
 ## Project Structure
 
-```text
-/
-├── src/
-│   ├── components/
-│   │   └── App.vue         # Main application component
-│   ├── stores/
-│   │   └── store.ts        # Pinia store for state management
-│   ├── layouts/
-│   │   └── Layout.astro    # Main layout component
-│   └── pages/
-│       └── index.astro     # Entry point
-├── public/
-│   └── favicon.svg
-└── package.json
-```
 
 ## API Integration
 
@@ -80,7 +65,3 @@ The app integrates with the Tasty API through RapidAPI, providing access to:
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
