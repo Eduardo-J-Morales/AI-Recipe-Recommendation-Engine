@@ -28,13 +28,11 @@ export const useStore = defineStore('main', {
         url.searchParams.append('q', this.ingredients[i])
       }
 
-      const apiKey = import.meta.env.API_KEY;
-      console.log('API Key:', apiKey); // For debugging
 
       const options = {
         method: 'GET',
         headers: {
-          'x-rapidapi-key': apiKey as string,
+          'x-rapidapi-key': process.env.API_KEY,
           'x-rapidapi-host': 'tasty.p.rapidapi.com'
         }
       };
